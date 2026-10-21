@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.application'
+}
+
+def buildNum = (System.getenv("BUILD_NUMBER") ?: "1").toInteger()
+
+android {
+    namespace 'com.harada.tracker'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.harada.tracker'
+        minSdk 26
+        targetSdk 34
+        versionCode buildNum
+        versionName "1.0.${buildNum}"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('release.jks')
+            storePassword 'haradatracker'
+            keyAlias 'harada'
+            keyPassword 'haradatracker'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
